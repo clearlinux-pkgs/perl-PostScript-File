@@ -4,15 +4,15 @@
 #
 Name     : perl-PostScript-File
 Version  : 2.23
-Release  : 1
+Release  : 2
 URL      : https://cpan.metacpan.org/authors/id/C/CJ/CJM/PostScript-File-2.23.tar.gz
 Source0  : https://cpan.metacpan.org/authors/id/C/CJ/CJM/PostScript-File-2.23.tar.gz
 Source1  : http://http.debian.net/debian/pool/main/libp/libpostscript-file-perl/libpostscript-file-perl_2.23+dfsg-1.debian.tar.xz
 Summary  : 'Class for creating Adobe PostScript files'
 Group    : Development/Tools
 License  : Artistic-1.0 Artistic-1.0-Perl GPL-1.0
-Requires: perl-PostScript-File-license
-Requires: perl-PostScript-File-man
+Requires: perl-PostScript-File-license = %{version}-%{release}
+BuildRequires : buildreq-cpan
 
 %description
 PostScript::File version 2.23, released October 10, 2015
@@ -22,6 +22,15 @@ PostScript errors and debugging support.  Although it may be used independently,
 the functions provided are also suitable for use in other modules.  See one of
 these modules for a top-level object.
 
+%package dev
+Summary: dev components for the perl-PostScript-File package.
+Group: Development
+Provides: perl-PostScript-File-devel = %{version}-%{release}
+
+%description dev
+dev components for the perl-PostScript-File package.
+
+
 %package license
 Summary: license components for the perl-PostScript-File package.
 Group: Default
@@ -30,19 +39,11 @@ Group: Default
 license components for the perl-PostScript-File package.
 
 
-%package man
-Summary: man components for the perl-PostScript-File package.
-Group: Default
-
-%description man
-man components for the perl-PostScript-File package.
-
-
 %prep
-tar -xf %{SOURCE1}
-cd ..
 %setup -q -n PostScript-File-2.23
-mkdir -p %{_topdir}/BUILD/PostScript-File-2.23/deblicense/
+cd ..
+%setup -q -T -D -n PostScript-File-2.23 -b 1
+mkdir -p deblicense/
 mv %{_topdir}/BUILD/debian/* %{_topdir}/BUILD/PostScript-File-2.23/deblicense/
 
 %build
@@ -67,12 +68,12 @@ make TEST_VERBOSE=1 test
 
 %install
 rm -rf %{buildroot}
-mkdir -p %{buildroot}/usr/share/doc/perl-PostScript-File
-cp LICENSE %{buildroot}/usr/share/doc/perl-PostScript-File/LICENSE
+mkdir -p %{buildroot}/usr/share/package-licenses/perl-PostScript-File
+cp LICENSE %{buildroot}/usr/share/package-licenses/perl-PostScript-File/LICENSE
 if test -f Makefile.PL; then
-make pure_install PERL_INSTALL_ROOT=%{buildroot}
+make pure_install PERL_INSTALL_ROOT=%{buildroot} INSTALLDIRS=vendor
 else
-./Build install --installdirs=site --destdir=%{buildroot}
+./Build install --installdirs=vendor --destdir=%{buildroot}
 fi
 find %{buildroot} -type f -name .packlist -exec rm -f {} ';'
 find %{buildroot} -depth -type d -exec rmdir {} 2>/dev/null ';'
@@ -81,55 +82,55 @@ find %{buildroot} -type f -name '*.bs' -empty -exec rm -f {} ';'
 
 %files
 %defattr(-,root,root,-)
-/usr/lib/perl5/site_perl/5.26.1/PostScript/File.pm
-/usr/lib/perl5/site_perl/5.26.1/PostScript/File/Functions.pm
-/usr/lib/perl5/site_perl/5.26.1/PostScript/File/Metrics.pm
-/usr/lib/perl5/site_perl/5.26.1/PostScript/File/Metrics/Loader.pm
-/usr/lib/perl5/site_perl/5.26.1/PostScript/File/Metrics/cp1252/Courier.pm
-/usr/lib/perl5/site_perl/5.26.1/PostScript/File/Metrics/cp1252/Courier/Bold.pm
-/usr/lib/perl5/site_perl/5.26.1/PostScript/File/Metrics/cp1252/Courier/BoldOblique.pm
-/usr/lib/perl5/site_perl/5.26.1/PostScript/File/Metrics/cp1252/Courier/Oblique.pm
-/usr/lib/perl5/site_perl/5.26.1/PostScript/File/Metrics/cp1252/Helvetica.pm
-/usr/lib/perl5/site_perl/5.26.1/PostScript/File/Metrics/cp1252/Helvetica/Bold.pm
-/usr/lib/perl5/site_perl/5.26.1/PostScript/File/Metrics/cp1252/Helvetica/BoldOblique.pm
-/usr/lib/perl5/site_perl/5.26.1/PostScript/File/Metrics/cp1252/Helvetica/Oblique.pm
-/usr/lib/perl5/site_perl/5.26.1/PostScript/File/Metrics/cp1252/Times/Bold.pm
-/usr/lib/perl5/site_perl/5.26.1/PostScript/File/Metrics/cp1252/Times/BoldItalic.pm
-/usr/lib/perl5/site_perl/5.26.1/PostScript/File/Metrics/cp1252/Times/Italic.pm
-/usr/lib/perl5/site_perl/5.26.1/PostScript/File/Metrics/cp1252/Times/Roman.pm
-/usr/lib/perl5/site_perl/5.26.1/PostScript/File/Metrics/iso_8859_1/Courier.pm
-/usr/lib/perl5/site_perl/5.26.1/PostScript/File/Metrics/iso_8859_1/Courier/Bold.pm
-/usr/lib/perl5/site_perl/5.26.1/PostScript/File/Metrics/iso_8859_1/Courier/BoldOblique.pm
-/usr/lib/perl5/site_perl/5.26.1/PostScript/File/Metrics/iso_8859_1/Courier/Oblique.pm
-/usr/lib/perl5/site_perl/5.26.1/PostScript/File/Metrics/iso_8859_1/Helvetica.pm
-/usr/lib/perl5/site_perl/5.26.1/PostScript/File/Metrics/iso_8859_1/Helvetica/Bold.pm
-/usr/lib/perl5/site_perl/5.26.1/PostScript/File/Metrics/iso_8859_1/Helvetica/BoldOblique.pm
-/usr/lib/perl5/site_perl/5.26.1/PostScript/File/Metrics/iso_8859_1/Helvetica/Oblique.pm
-/usr/lib/perl5/site_perl/5.26.1/PostScript/File/Metrics/iso_8859_1/Times/Bold.pm
-/usr/lib/perl5/site_perl/5.26.1/PostScript/File/Metrics/iso_8859_1/Times/BoldItalic.pm
-/usr/lib/perl5/site_perl/5.26.1/PostScript/File/Metrics/iso_8859_1/Times/Italic.pm
-/usr/lib/perl5/site_perl/5.26.1/PostScript/File/Metrics/iso_8859_1/Times/Roman.pm
-/usr/lib/perl5/site_perl/5.26.1/PostScript/File/Metrics/std/Courier.pm
-/usr/lib/perl5/site_perl/5.26.1/PostScript/File/Metrics/std/Courier/Bold.pm
-/usr/lib/perl5/site_perl/5.26.1/PostScript/File/Metrics/std/Courier/BoldOblique.pm
-/usr/lib/perl5/site_perl/5.26.1/PostScript/File/Metrics/std/Courier/Oblique.pm
-/usr/lib/perl5/site_perl/5.26.1/PostScript/File/Metrics/std/Helvetica.pm
-/usr/lib/perl5/site_perl/5.26.1/PostScript/File/Metrics/std/Helvetica/Bold.pm
-/usr/lib/perl5/site_perl/5.26.1/PostScript/File/Metrics/std/Helvetica/BoldOblique.pm
-/usr/lib/perl5/site_perl/5.26.1/PostScript/File/Metrics/std/Helvetica/Oblique.pm
-/usr/lib/perl5/site_perl/5.26.1/PostScript/File/Metrics/std/Times/Bold.pm
-/usr/lib/perl5/site_perl/5.26.1/PostScript/File/Metrics/std/Times/BoldItalic.pm
-/usr/lib/perl5/site_perl/5.26.1/PostScript/File/Metrics/std/Times/Italic.pm
-/usr/lib/perl5/site_perl/5.26.1/PostScript/File/Metrics/std/Times/Roman.pm
-/usr/lib/perl5/site_perl/5.26.1/PostScript/File/Metrics/sym/Symbol.pm
+/usr/lib/perl5/vendor_perl/5.26.1/PostScript/File.pm
+/usr/lib/perl5/vendor_perl/5.26.1/PostScript/File/Functions.pm
+/usr/lib/perl5/vendor_perl/5.26.1/PostScript/File/Metrics.pm
+/usr/lib/perl5/vendor_perl/5.26.1/PostScript/File/Metrics/Loader.pm
+/usr/lib/perl5/vendor_perl/5.26.1/PostScript/File/Metrics/cp1252/Courier.pm
+/usr/lib/perl5/vendor_perl/5.26.1/PostScript/File/Metrics/cp1252/Courier/Bold.pm
+/usr/lib/perl5/vendor_perl/5.26.1/PostScript/File/Metrics/cp1252/Courier/BoldOblique.pm
+/usr/lib/perl5/vendor_perl/5.26.1/PostScript/File/Metrics/cp1252/Courier/Oblique.pm
+/usr/lib/perl5/vendor_perl/5.26.1/PostScript/File/Metrics/cp1252/Helvetica.pm
+/usr/lib/perl5/vendor_perl/5.26.1/PostScript/File/Metrics/cp1252/Helvetica/Bold.pm
+/usr/lib/perl5/vendor_perl/5.26.1/PostScript/File/Metrics/cp1252/Helvetica/BoldOblique.pm
+/usr/lib/perl5/vendor_perl/5.26.1/PostScript/File/Metrics/cp1252/Helvetica/Oblique.pm
+/usr/lib/perl5/vendor_perl/5.26.1/PostScript/File/Metrics/cp1252/Times/Bold.pm
+/usr/lib/perl5/vendor_perl/5.26.1/PostScript/File/Metrics/cp1252/Times/BoldItalic.pm
+/usr/lib/perl5/vendor_perl/5.26.1/PostScript/File/Metrics/cp1252/Times/Italic.pm
+/usr/lib/perl5/vendor_perl/5.26.1/PostScript/File/Metrics/cp1252/Times/Roman.pm
+/usr/lib/perl5/vendor_perl/5.26.1/PostScript/File/Metrics/iso_8859_1/Courier.pm
+/usr/lib/perl5/vendor_perl/5.26.1/PostScript/File/Metrics/iso_8859_1/Courier/Bold.pm
+/usr/lib/perl5/vendor_perl/5.26.1/PostScript/File/Metrics/iso_8859_1/Courier/BoldOblique.pm
+/usr/lib/perl5/vendor_perl/5.26.1/PostScript/File/Metrics/iso_8859_1/Courier/Oblique.pm
+/usr/lib/perl5/vendor_perl/5.26.1/PostScript/File/Metrics/iso_8859_1/Helvetica.pm
+/usr/lib/perl5/vendor_perl/5.26.1/PostScript/File/Metrics/iso_8859_1/Helvetica/Bold.pm
+/usr/lib/perl5/vendor_perl/5.26.1/PostScript/File/Metrics/iso_8859_1/Helvetica/BoldOblique.pm
+/usr/lib/perl5/vendor_perl/5.26.1/PostScript/File/Metrics/iso_8859_1/Helvetica/Oblique.pm
+/usr/lib/perl5/vendor_perl/5.26.1/PostScript/File/Metrics/iso_8859_1/Times/Bold.pm
+/usr/lib/perl5/vendor_perl/5.26.1/PostScript/File/Metrics/iso_8859_1/Times/BoldItalic.pm
+/usr/lib/perl5/vendor_perl/5.26.1/PostScript/File/Metrics/iso_8859_1/Times/Italic.pm
+/usr/lib/perl5/vendor_perl/5.26.1/PostScript/File/Metrics/iso_8859_1/Times/Roman.pm
+/usr/lib/perl5/vendor_perl/5.26.1/PostScript/File/Metrics/std/Courier.pm
+/usr/lib/perl5/vendor_perl/5.26.1/PostScript/File/Metrics/std/Courier/Bold.pm
+/usr/lib/perl5/vendor_perl/5.26.1/PostScript/File/Metrics/std/Courier/BoldOblique.pm
+/usr/lib/perl5/vendor_perl/5.26.1/PostScript/File/Metrics/std/Courier/Oblique.pm
+/usr/lib/perl5/vendor_perl/5.26.1/PostScript/File/Metrics/std/Helvetica.pm
+/usr/lib/perl5/vendor_perl/5.26.1/PostScript/File/Metrics/std/Helvetica/Bold.pm
+/usr/lib/perl5/vendor_perl/5.26.1/PostScript/File/Metrics/std/Helvetica/BoldOblique.pm
+/usr/lib/perl5/vendor_perl/5.26.1/PostScript/File/Metrics/std/Helvetica/Oblique.pm
+/usr/lib/perl5/vendor_perl/5.26.1/PostScript/File/Metrics/std/Times/Bold.pm
+/usr/lib/perl5/vendor_perl/5.26.1/PostScript/File/Metrics/std/Times/BoldItalic.pm
+/usr/lib/perl5/vendor_perl/5.26.1/PostScript/File/Metrics/std/Times/Italic.pm
+/usr/lib/perl5/vendor_perl/5.26.1/PostScript/File/Metrics/std/Times/Roman.pm
+/usr/lib/perl5/vendor_perl/5.26.1/PostScript/File/Metrics/sym/Symbol.pm
 
-%files license
-%defattr(-,root,root,-)
-/usr/share/doc/perl-PostScript-File/LICENSE
-
-%files man
+%files dev
 %defattr(-,root,root,-)
 /usr/share/man/man3/PostScript::File.3
 /usr/share/man/man3/PostScript::File::Functions.3
 /usr/share/man/man3/PostScript::File::Metrics.3
 /usr/share/man/man3/PostScript::File::Metrics::Loader.3
+
+%files license
+%defattr(0644,root,root,0755)
+/usr/share/package-licenses/perl-PostScript-File/LICENSE
