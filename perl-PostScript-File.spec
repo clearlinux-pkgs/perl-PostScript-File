@@ -4,7 +4,7 @@
 #
 Name     : perl-PostScript-File
 Version  : 2.23
-Release  : 24
+Release  : 25
 URL      : https://cpan.metacpan.org/authors/id/C/CJ/CJM/PostScript-File-2.23.tar.gz
 Source0  : https://cpan.metacpan.org/authors/id/C/CJ/CJM/PostScript-File-2.23.tar.gz
 Source1  : http://http.debian.net/debian/pool/main/libp/libpostscript-file-perl/libpostscript-file-perl_2.23+dfsg-1.debian.tar.xz
